@@ -1,7 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 List<Dispositivo> dispositivos = new List<Dispositivo>();
-Console.WriteLine("¿Cúantos sispositivos desea registrar");
+Console.WriteLine("¿Cúantos dispositivos desea registrar");
 int n=int.Parse(Console.ReadLine());
 
 for (int i = 0; i < n; i++)
@@ -12,9 +12,24 @@ for (int i = 0; i < n; i++)
     Console.Write("Resultado de la prueva 1:_ "); dis.Rendimiento1=double.Parse(Console.ReadLine());
     Console.Write("Resultado de la prueva 2:_ "); dis.Rendimiento2 = double.Parse(Console.ReadLine());
     Console.Write("Resultado de la prueva 3:_ "); dis.Rendimiento3 = double.Parse(Console.ReadLine());
+    dispositivos.Add(dis);
+}
+double SumaPromedio = 0;
+Dispositivo Mayor = dispositivos[0];
+Console.WriteLine("\n LISTADO DE DISPOSITIVOS ");
+foreach (Dispositivo dis in dispositivos)
+{
+    dis.MostrarDatos();
+    SumaPromedio += dis.CalcularPromedio();
+    if (dis.CalcularPromedio() > Mayor.CalcularPromedio())
+    {
+        Mayor = dis;
+    }
 }
 
-
+Console.WriteLine($"Promedio general de rendimiento: {SumaPromedio/dispositivos.Count:F2}");
+Console.WriteLine("Mayor Rendimiento");
+Mayor.MostrarDatos();
 
 class Dispositivo
 {
@@ -30,20 +45,20 @@ class Dispositivo
 
     public string Estado()
     {
-        if (CalcularPromedio()>=80)
+        if (CalcularPromedio()<80)
         {
-            return "Óptimo";
+            return "Necesita Mantenimiento";
         }
-        else if (CalcularPromedio()<80)
+        else 
         {
-            return "Necesita mantenimiento";
+            return "Optimo";
         }
 
     }
 
     public void MostrarDatos()
     {
-        Console.WriteLine($"Nombre:{Nombre} | Promedio Rendimiento:{CalcularPromedio} | Estado:{Estado} ");
+        Console.WriteLine($"Nombre:{Nombre} | Promedio Rendimiento:{CalcularPromedio():F2} | Estado:{Estado()} ");
     }
 
 }
